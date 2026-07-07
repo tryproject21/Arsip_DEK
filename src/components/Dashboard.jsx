@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
-import { FaSearch, FaBoxOpen, FaSync, FaEdit, FaTimes, FaCloudUploadAlt, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import { 
+  FaSearch, FaBoxOpen, FaSync, FaEdit, FaTimes, 
+  FaCloudUploadAlt, FaCheckCircle, FaExclamationCircle, 
+  FaTrash, FaClipboardList, FaCheck, FaWrench, FaExclamationTriangle
+} from 'react-icons/fa';
 
 // Ganti ini dengan URL Web App dari Google Apps Script setelah di-deploy
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbWotkx-WhfE8UhME8Jmrl2PPCWTysoTb-p5VnY0NhWxpXdyd1KQfzieZQW8hY6yXWJg/exec';
@@ -31,7 +35,6 @@ function Dashboard() {
     setError(null);
     try {
       if (SCRIPT_URL === 'GANTI_DENGAN_URL_WEB_APP_ANDA') {
-        // Mock data if URL is not set yet for demonstration
         setData([
           { id: 1, namaBarang: "Laptop ThinkPad", kategori: "Elektronik/IT", merek: "Lenovo", nomorSeri: "SN12345", kodeInventaris: "INV-001", kondisi: "Berfungsi Baik", lokasi: "Ruang Rapat", penanggungJawab: "Budi", photoUrl: "" },
           { id: 2, namaBarang: "Meja Kerja", kategori: "Furnitur", merek: "IKEA", nomorSeri: "-", kodeInventaris: "INV-002", kondisi: "Baru", lokasi: "Ruang Staf", penanggungJawab: "Siti", photoUrl: "" },
@@ -80,6 +83,12 @@ function Dashboard() {
     
     return matchesCategory && matchesSearch;
   });
+
+  // Calculate Statistics
+  const totalItems = data.length;
+  const goodCondition = data.filter(item => item.kondisi === 'Baru' || item.kondisi === 'Berfungsi Baik').length;
+  const damagedCondition = data.filter(item => item.kondisi === 'Rusak Ringan' || item.kondisi === 'Rusak Berat').length;
+  const missingCondition = data.filter(item => item.kondisi === 'Hilang').length;
 
   // Modal Handlers
   const openEditModal = (item) => {
@@ -136,10 +145,8 @@ function Dashboard() {
         return;
       }
 
-      // Action di-set ke 'edit'
       const submitData = { ...editingItem, action: 'edit' };
 
-      // Hanya tambahkan data file jika ada file BARU yang dipilih
       if (photoFile && photoPreview) {
         submitData.fotoBase64 = photoPreview;
         submitData.fotoName = photoFile.name;
@@ -157,7 +164,7 @@ function Dashboard() {
       if (result.status === 'success') {
         showToast('success', 'Data berhasil diperbarui!');
         closeEditModal();
-        fetchData(); // Reload data dari Google Sheets
+        fetchData();
       } else {
         showToast('error', 'Gagal: ' + result.message);
       }
@@ -169,10 +176,77 @@ function Dashboard() {
     }
   };
 
+  const handleDelete = async (item) => {
+    if (!window.confirm(`Apakah Anda YAKIN ingin menghapus permanen data "${item.namaBarang}"?`)) {
+      return;
+    }
+
+    try {
+      if (SCRIPT_URL === 'GANTI_DENGAN_URL_WEB_APP_ANDA') {
+        showToast('success', 'Data dihapus! (Mode Simulasi)');
+        return;
+      }
+
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'delete', id: item.id })
+      });
+
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+        showToast('success', 'Data berhasil dihapus!');
+        fetchData();
+      } else {
+        showToast('error', 'Gagal menghapus: ' + result.message);
+      }
+    } catch (error) {
+      console.error(error);
+      showToast('error', 'Terjadi kesalahan jaringan.');
+    }
+  };
+
   return (
     <div className="glass-panel" style={{ padding: '2rem' }}>
       <h2 className="page-title">Dasbor Arsip</h2>
       
+      {/* Analytics Cards */}
+      <div className="stats-grid">
+        <div className="stat-card">
+          <FaClipboardList className="stat-icon-bg" />
+          <div className="stat-icon-wrapper stat-icon-primary"><FaBoxOpen /></div>
+          <div className="stat-info">
+            <div className="stat-value">{totalItems}</div>
+            <div className="stat-label">Total Arsip</div>
+          </div>
+        </div>
+        <div className="stat-card">
+          <FaCheck className="stat-icon-bg" style={{color: '#2E7D32'}} />
+          <div className="stat-icon-wrapper stat-icon-success"><FaCheck /></div>
+          <div className="stat-info">
+            <div className="stat-value">{goodCondition}</div>
+            <div className="stat-label">Kondisi Baik</div>
+          </div>
+        </div>
+        <div className="stat-card">
+          <FaWrench className="stat-icon-bg" style={{color: '#EF6C00'}} />
+          <div className="stat-icon-wrapper stat-icon-warning"><FaWrench /></div>
+          <div className="stat-info">
+            <div className="stat-value">{damagedCondition}</div>
+            <div className="stat-label">Barang Rusak</div>
+          </div>
+        </div>
+        <div className="stat-card">
+          <FaExclamationTriangle className="stat-icon-bg" style={{color: '#C62828'}} />
+          <div className="stat-icon-wrapper stat-icon-danger"><FaExclamationTriangle /></div>
+          <div className="stat-info">
+            <div className="stat-value">{missingCondition}</div>
+            <div className="stat-label">Barang Hilang</div>
+          </div>
+        </div>
+      </div>
+
       <div className="toolbar">
         <div className="search-bar">
           <FaSearch className="search-icon" />
@@ -259,9 +333,14 @@ function Dashboard() {
                   <td>{item.lokasi}</td>
                   <td>{item.penanggungJawab}</td>
                   <td>
-                    <button className="btn-icon" onClick={() => openEditModal(item)} title="Edit">
-                      <FaEdit />
-                    </button>
+                    <div style={{ display: 'flex', gap: '0.2rem' }}>
+                      <button className="btn-icon" onClick={() => openEditModal(item)} title="Edit">
+                        <FaEdit />
+                      </button>
+                      <button className="btn-icon btn-danger" onClick={() => handleDelete(item)} title="Hapus">
+                        <FaTrash />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
