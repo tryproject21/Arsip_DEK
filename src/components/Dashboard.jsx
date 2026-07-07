@@ -16,6 +16,7 @@ function Dashboard() {
   // Filter & Search states
   const [searchTerm, setSearchTerm] = useState('');
   const [kategoriFilter, setKategoriFilter] = useState('Semua');
+  const [kondisiFilter, setKondisiFilter] = useState('Semua');
 
   // Edit Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,12 +77,22 @@ function Dashboard() {
 
   const filteredData = data.filter(item => {
     const matchesCategory = kategoriFilter === 'Semua' || item.kategori === kategoriFilter;
+    
+    let matchesKondisi = true;
+    if (kondisiFilter === 'Baik') {
+      matchesKondisi = item.kondisi === 'Baru' || item.kondisi === 'Berfungsi Baik';
+    } else if (kondisiFilter === 'Rusak') {
+      matchesKondisi = item.kondisi === 'Rusak Ringan' || item.kondisi === 'Rusak Berat';
+    } else if (kondisiFilter === 'Hilang') {
+      matchesKondisi = item.kondisi === 'Hilang';
+    }
+
     const matchesSearch = 
       item.namaBarang.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.nomorSeri.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.kodeInventaris.toLowerCase().includes(searchTerm.toLowerCase());
     
-    return matchesCategory && matchesSearch;
+    return matchesCategory && matchesKondisi && matchesSearch;
   });
 
   // Calculate Statistics
@@ -271,6 +282,17 @@ function Dashboard() {
             <option value="ATK">ATK</option>
             <option value="Peralatan Kebersihan">Peralatan Kebersihan</option>
             <option value="Dokumen">Dokumen</option>
+          </select>
+
+          <select 
+            className="form-control" 
+            value={kondisiFilter}
+            onChange={(e) => setKondisiFilter(e.target.value)}
+          >
+            <option value="Semua">Semua Kondisi</option>
+            <option value="Baik">Kondisi Baik</option>
+            <option value="Rusak">Barang Rusak</option>
+            <option value="Hilang">Barang Hilang</option>
           </select>
           
           <button className="btn btn-secondary" onClick={fetchData} title="Muat Ulang">
