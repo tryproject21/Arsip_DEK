@@ -8,7 +8,7 @@ function Dashboard() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   // Filter & Search states
   const [searchTerm, setSearchTerm] = useState('');
   const [kategoriFilter, setKategoriFilter] = useState('Semua');
@@ -17,7 +17,7 @@ function Dashboard() {
     setLoading(true);
     setError(null);
     try {
-      if (SCRIPT_URL === 'GANTI_DENGAN_URL_WEB_APP_ANDA') {
+      if (SCRIPT_URL === 'https://arsip-dek.vercel.app/') {
         // Mock data if URL is not set yet for demonstration
         setData([
           { id: 1, namaBarang: "Laptop ThinkPad", kategori: "Elektronik/IT", merek: "Lenovo", nomorSeri: "SN12345", kodeInventaris: "INV-001", kondisi: "Berfungsi Baik", lokasi: "Ruang Rapat", penanggungJawab: "Budi", photoUrl: "" },
@@ -29,7 +29,7 @@ function Dashboard() {
 
       const response = await fetch(SCRIPT_URL);
       const result = await response.json();
-      
+
       if (result.status === 'success') {
         setData(result.data);
       } else {
@@ -60,33 +60,33 @@ function Dashboard() {
 
   const filteredData = data.filter(item => {
     const matchesCategory = kategoriFilter === 'Semua' || item.kategori === kategoriFilter;
-    const matchesSearch = 
+    const matchesSearch =
       item.namaBarang.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.nomorSeri.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.kodeInventaris.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     return matchesCategory && matchesSearch;
   });
 
   return (
     <div className="glass-panel" style={{ padding: '2rem' }}>
       <h2 className="page-title">Dasbor Arsip</h2>
-      
+
       <div className="toolbar">
         <div className="search-bar">
           <FaSearch className="search-icon" />
-          <input 
-            type="text" 
-            className="form-control" 
+          <input
+            type="text"
+            className="form-control"
             placeholder="Cari nama, No. Seri, atau Kode..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        
+
         <div className="filter-group">
-          <select 
-            className="form-control" 
+          <select
+            className="form-control"
             value={kategoriFilter}
             onChange={(e) => setKategoriFilter(e.target.value)}
           >
@@ -97,7 +97,7 @@ function Dashboard() {
             <option value="Peralatan Kebersihan">Peralatan Kebersihan</option>
             <option value="Dokumen">Dokumen</option>
           </select>
-          
+
           <button className="btn btn-secondary" onClick={fetchData} title="Muat Ulang">
             <FaSync />
           </button>
