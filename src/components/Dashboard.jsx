@@ -224,7 +224,11 @@ function Dashboard() {
       
       {/* Analytics Cards */}
       <div className="stats-grid">
-        <div className="stat-card">
+        <div 
+          className={`stat-card ${kondisiFilter === 'Semua' ? 'active-filter' : ''}`}
+          onClick={() => setKondisiFilter('Semua')}
+          title="Tampilkan Semua"
+        >
           <FaClipboardList className="stat-icon-bg" />
           <div className="stat-icon-wrapper stat-icon-primary"><FaBoxOpen /></div>
           <div className="stat-info">
@@ -232,7 +236,12 @@ function Dashboard() {
             <div className="stat-label">Total Arsip</div>
           </div>
         </div>
-        <div className="stat-card">
+        
+        <div 
+          className={`stat-card ${kondisiFilter === 'Baik' ? 'active-filter' : ''}`}
+          onClick={() => setKondisiFilter('Baik')}
+          title="Filter: Kondisi Baik"
+        >
           <FaCheck className="stat-icon-bg" style={{color: '#2E7D32'}} />
           <div className="stat-icon-wrapper stat-icon-success"><FaCheck /></div>
           <div className="stat-info">
@@ -240,7 +249,12 @@ function Dashboard() {
             <div className="stat-label">Kondisi Baik</div>
           </div>
         </div>
-        <div className="stat-card">
+        
+        <div 
+          className={`stat-card ${kondisiFilter === 'Rusak' ? 'active-filter' : ''}`}
+          onClick={() => setKondisiFilter('Rusak')}
+          title="Filter: Barang Rusak"
+        >
           <FaWrench className="stat-icon-bg" style={{color: '#EF6C00'}} />
           <div className="stat-icon-wrapper stat-icon-warning"><FaWrench /></div>
           <div className="stat-info">
@@ -248,7 +262,12 @@ function Dashboard() {
             <div className="stat-label">Barang Rusak</div>
           </div>
         </div>
-        <div className="stat-card">
+        
+        <div 
+          className={`stat-card ${kondisiFilter === 'Hilang' ? 'active-filter' : ''}`}
+          onClick={() => setKondisiFilter('Hilang')}
+          title="Filter: Barang Hilang"
+        >
           <FaExclamationTriangle className="stat-icon-bg" style={{color: '#C62828'}} />
           <div className="stat-icon-wrapper stat-icon-danger"><FaExclamationTriangle /></div>
           <div className="stat-info">
