@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaCloudUploadAlt, FaTimes, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 
 // Ganti ini dengan URL Web App dari Google Apps Script setelah di-deploy
-const SCRIPT_URL = 'GANTI_DENGAN_URL_WEB_APP_ANDA';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbWotkx-WhfE8UhME8Jmrl2PPCWTysoTb-p5VnY0NhWxpXdyd1KQfzieZQW8hY6yXWJg/exec';
 
 function InputForm() {
   const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ function InputForm() {
 
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
-  
+
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ show: false, type: '', message: '' });
 
@@ -85,7 +85,7 @@ function InputForm() {
       });
 
       const result = await response.json();
-      
+
       if (result.status === 'success') {
         showToast('success', 'Data arsip berhasil ditambahkan!');
         handleReset();
@@ -118,15 +118,15 @@ function InputForm() {
   return (
     <div className="form-container glass-panel">
       <h2 className="page-title">Tambah Arsip Baru</h2>
-      
+
       <form onSubmit={handleSubmit} className="form-grid">
-        
+
         {/* Nama Barang */}
         <div className="form-group form-group-full">
-          <label className="form-label">Nama Barang / Dokumen <span style={{color:'red'}}>*</span></label>
-          <input 
-            type="text" 
-            className="form-control" 
+          <label className="form-label">Nama Barang / Dokumen <span style={{ color: 'red' }}>*</span></label>
+          <input
+            type="text"
+            className="form-control"
             name="namaBarang"
             value={formData.namaBarang}
             onChange={handleInputChange}
@@ -137,9 +137,9 @@ function InputForm() {
 
         {/* Kategori */}
         <div className="form-group">
-          <label className="form-label">Kategori <span style={{color:'red'}}>*</span></label>
-          <select 
-            className="form-control" 
+          <label className="form-label">Kategori <span style={{ color: 'red' }}>*</span></label>
+          <select
+            className="form-control"
             name="kategori"
             value={formData.kategori}
             onChange={handleInputChange}
@@ -156,9 +156,9 @@ function InputForm() {
         {/* Merek / Tipe */}
         <div className="form-group">
           <label className="form-label">Merek / Tipe</label>
-          <input 
-            type="text" 
-            className="form-control" 
+          <input
+            type="text"
+            className="form-control"
             name="merek"
             value={formData.merek}
             onChange={handleInputChange}
@@ -169,9 +169,9 @@ function InputForm() {
         {/* Nomor Seri */}
         <div className="form-group">
           <label className="form-label">Nomor Seri</label>
-          <input 
-            type="text" 
-            className="form-control" 
+          <input
+            type="text"
+            className="form-control"
             name="nomorSeri"
             value={formData.nomorSeri}
             onChange={handleInputChange}
@@ -182,9 +182,9 @@ function InputForm() {
         {/* Kode Inventaris */}
         <div className="form-group">
           <label className="form-label">Kode Inventaris</label>
-          <input 
-            type="text" 
-            className="form-control" 
+          <input
+            type="text"
+            className="form-control"
             name="kodeInventaris"
             value={formData.kodeInventaris}
             onChange={handleInputChange}
@@ -194,9 +194,9 @@ function InputForm() {
 
         {/* Kondisi */}
         <div className="form-group">
-          <label className="form-label">Kondisi <span style={{color:'red'}}>*</span></label>
-          <select 
-            className="form-control" 
+          <label className="form-label">Kondisi <span style={{ color: 'red' }}>*</span></label>
+          <select
+            className="form-control"
             name="kondisi"
             value={formData.kondisi}
             onChange={handleInputChange}
@@ -212,10 +212,10 @@ function InputForm() {
 
         {/* Lokasi */}
         <div className="form-group">
-          <label className="form-label">Lokasi Penempatan <span style={{color:'red'}}>*</span></label>
-          <input 
-            type="text" 
-            className="form-control" 
+          <label className="form-label">Lokasi Penempatan <span style={{ color: 'red' }}>*</span></label>
+          <input
+            type="text"
+            className="form-control"
             name="lokasi"
             value={formData.lokasi}
             onChange={handleInputChange}
@@ -226,10 +226,10 @@ function InputForm() {
 
         {/* Penanggung Jawab */}
         <div className="form-group">
-          <label className="form-label">Penanggung Jawab <span style={{color:'red'}}>*</span></label>
-          <input 
-            type="text" 
-            className="form-control" 
+          <label className="form-label">Penanggung Jawab <span style={{ color: 'red' }}>*</span></label>
+          <input
+            type="text"
+            className="form-control"
             name="penanggungJawab"
             value={formData.penanggungJawab}
             onChange={handleInputChange}
@@ -241,8 +241,8 @@ function InputForm() {
         {/* Catatan Tambahan */}
         <div className="form-group form-group-full">
           <label className="form-label">Catatan Tambahan</label>
-          <textarea 
-            className="form-control" 
+          <textarea
+            className="form-control"
             name="catatan"
             value={formData.catatan}
             onChange={handleInputChange}
@@ -253,11 +253,11 @@ function InputForm() {
         {/* Upload Foto */}
         <div className="form-group form-group-full">
           <label className="form-label">Foto / Bukti Fisik</label>
-          
+
           {!photoPreview ? (
             <div className="file-input-wrapper">
-              <input 
-                type="file" 
+              <input
+                type="file"
                 accept="image/*"
                 onChange={handleFileChange}
               />

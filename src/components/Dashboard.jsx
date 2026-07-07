@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { FaSearch, FaBoxOpen, FaSync } from 'react-icons/fa';
 
 // Ganti ini dengan URL Web App dari Google Apps Script setelah di-deploy
-const SCRIPT_URL = 'GANTI_DENGAN_URL_WEB_APP_ANDA';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbWotkx-WhfE8UhME8Jmrl2PPCWTysoTb-p5VnY0NhWxpXdyd1KQfzieZQW8hY6yXWJg/exec';
 
 function Dashboard() {
   const [data, setData] = useState([]);
@@ -17,7 +17,7 @@ function Dashboard() {
     setLoading(true);
     setError(null);
     try {
-      if (SCRIPT_URL === 'https://arsip-dek.vercel.app/') {
+      if (SCRIPT_URL === 'GANTI_DENGAN_URL_WEB_APP_ANDA') {
         // Mock data if URL is not set yet for demonstration
         setData([
           { id: 1, namaBarang: "Laptop ThinkPad", kategori: "Elektronik/IT", merek: "Lenovo", nomorSeri: "SN12345", kodeInventaris: "INV-001", kondisi: "Berfungsi Baik", lokasi: "Ruang Rapat", penanggungJawab: "Budi", photoUrl: "" },
