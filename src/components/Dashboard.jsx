@@ -208,7 +208,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="glass-panel" style={{ padding: '2rem' }}>
+    <div className="glass-panel dashboard-panel">
       <h2 className="page-title">Dasbor Arsip</h2>
       
       {/* Analytics Cards */}
