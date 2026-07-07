@@ -21,6 +21,17 @@
   --transition: all 0.3s ease;
 }
 
+.dark-theme {
+  --color-bg: #121c22;            /* Dark Slate */
+  --color-text-dark: #e0e0e0;     /* Light text */
+  --color-text-light: #a0a0a0;    /* Muted text */
+  --color-white: #1e2933;         /* Dark Card Background */
+  --color-border: rgba(255, 255, 255, 0.1);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -35,6 +46,10 @@ body {
   min-height: 100vh;
   /* Add a subtle gradient background similar to the image */
   background: linear-gradient(135deg, #e0f2f1 0%, #e1f5fe 100%);
+}
+
+body.dark-theme {
+  background: var(--color-bg);
 }
 
 .app-container {
