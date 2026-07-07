@@ -309,7 +309,7 @@ function Dashboard() {
             <tbody>
               {filteredData.map((item, index) => (
                 <tr key={item.id || index}>
-                  <td className="photo-cell">
+                  <td className="photo-cell" data-label="Foto">
                     {item.photoUrl && item.photoUrl !== '' && !item.photoUrl.startsWith('Error') ? (
                       <a href={item.photoUrl} target="_blank" rel="noopener noreferrer">
                         <img src={item.photoUrl} alt="Preview" />
@@ -320,20 +320,20 @@ function Dashboard() {
                       </div>
                     )}
                   </td>
-                  <td>
+                  <td data-label="Nama / Dokumen">
                     <strong>{item.namaBarang}</strong>
                     <div style={{ fontSize: '0.8rem', color: 'var(--color-text-light)' }}>{item.merek}</div>
                   </td>
-                  <td>{item.kategori}</td>
-                  <td>
+                  <td data-label="Kategori">{item.kategori}</td>
+                  <td data-label="Kode / SN">
                     <div>{item.kodeInventaris}</div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--color-text-light)' }}>SN: {item.nomorSeri}</div>
                   </td>
-                  <td><span className={`status-badge ${getStatusClass(item.kondisi)}`}>{item.kondisi}</span></td>
-                  <td>{item.lokasi}</td>
-                  <td>{item.penanggungJawab}</td>
-                  <td>
-                    <div style={{ display: 'flex', gap: '0.2rem' }}>
+                  <td data-label="Kondisi"><span className={`status-badge ${getStatusClass(item.kondisi)}`}>{item.kondisi}</span></td>
+                  <td data-label="Lokasi">{item.lokasi}</td>
+                  <td data-label="PJ">{item.penanggungJawab}</td>
+                  <td data-label="Aksi">
+                    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
                       <button className="btn-icon" onClick={() => openEditModal(item)} title="Edit">
                         <FaEdit />
                       </button>
